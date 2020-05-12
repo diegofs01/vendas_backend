@@ -1,6 +1,7 @@
 package com.diego.venda.controller;
 
 import java.util.Optional;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,12 +28,12 @@ public class ClienteController {
 		return "Cliente Salvo";
 	}
 	
-	@GetMapping(path="/busca")
+	@GetMapping(path="/")
 	public @ResponseBody Iterable<Cliente> getClientes() {
 		return clientRepository.findAll();
 	}
 	
-	@GetMapping(path="/busca/{id}")
+	@GetMapping(path="/{id}")
 	public @ResponseBody Optional<Cliente> getClienteByCPF(@RequestParam("cpf") String cpf) {
 		return clientRepository.findById(cpf);
 	}
@@ -41,6 +42,10 @@ public class ClienteController {
 	public @ResponseBody String updateCliente(@RequestBody Cliente cliente) { 
 		clientRepository.save(cliente);
 		return "Cliente atualizado";
+	}
+	@GetMapping(path="/hora")
+	public @ResponseBody String getHora() {
+		return "Hello, the time at the server is now " + new Date() + "\n";
 	}
 	 
 }
