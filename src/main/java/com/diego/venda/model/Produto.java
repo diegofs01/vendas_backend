@@ -1,6 +1,12 @@
 package com.diego.venda.model;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class Produto {
+	
+	@Id
 	private String codigo; 
 	private String nome;
 	private String unidade;

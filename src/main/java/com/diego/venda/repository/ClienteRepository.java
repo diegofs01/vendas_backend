@@ -1,4 +1,4 @@
-package com.diego.venda;
+package com.diego.venda.repository;
 
 import org.springframework.data.repository.CrudRepository;
 

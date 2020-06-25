@@ -1,13 +1,26 @@
 package com.diego.venda.model;
 
 import java.sql.Timestamp;
-import java.util.List;
+import java.util.Set;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Transient;
+
+@Entity
 public class Venda {
+	@Id @GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private int id;
+	
 	private Timestamp dataVenda;
+	
 	private String cpfCliente;
-	private List<Item> itens; //?
+	
+	@Transient
+	private Set<Item> itens;
+	
 	private double valorTotal;
 	
 	public int getId() {
@@ -31,10 +44,10 @@ public class Venda {
 		this.cpfCliente = cpfCliente;
 	}
 	
-	public List<Item> getItens() {
+	public Set<Item> getItens() {
 		return itens;
 	}
-	public void setItens(List<Item> itens) {
+	public void setItens(Set<Item> itens) {
 		this.itens = itens;
 	}
 	
@@ -44,7 +57,5 @@ public class Venda {
 	public void setValorTotal(double valorTotal) {
 		this.valorTotal = valorTotal;
 	}
-	
-	
 	
 }

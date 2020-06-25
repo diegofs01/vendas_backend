@@ -1,15 +1,29 @@
 package com.diego.venda.model;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+
+@Entity
 public class Item {
-	private String codigoPruduto;
+
+	@Id @GeneratedValue(strategy = GenerationType.SEQUENCE)
+	private int idItem;
 	private int idVenda;
 	
-	public String getCodigoPruduto() {
-		return codigoPruduto;
+	@ManyToOne
+	private Produto produto;
+	private int quantidade;
+
+	public int getIdItem() {
+		return idItem;
 	}
-	public void setCodigoPruduto(String codigoPruduto) {
-		this.codigoPruduto = codigoPruduto;
+	public void setIdItem(int idItem) {
+		this.idItem = idItem;
 	}
+	
 	public int getIdVenda() {
 		return idVenda;
 	}
@@ -17,5 +31,18 @@ public class Item {
 		this.idVenda = idVenda;
 	}
 	
+	public Produto getProduto() {
+		return produto;
+	}
+	public void setProduto(Produto produto) {
+		this.produto = produto;
+	}
+	
+	public int getQuantidade() {
+		return quantidade;
+	}
+	public void setQuantidade(int quantidade) {
+		this.quantidade = quantidade;
+	}	
 	
 }
