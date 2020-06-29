@@ -44,4 +44,16 @@ public class ClienteController {
 		clientRepository.save(cliente);
 		return "Cliente atualizado";
 	}
+	
+	@PostMapping(path="/desativar/{cpf}")
+	public @ResponseBody String desativarCliente(@PathVariable("cpf") String cpf) {
+		clientRepository.setAtivo(false, cpf);
+		return "Cliente Desativado";
+	}
+	
+	@PostMapping(path="/ativar/{cpf}")
+	public @ResponseBody String ativarCliente(@PathVariable("cpf") String cpf) {
+		clientRepository.setAtivo(true, cpf);
+		return "Cliente Ativado";
+	}
 }
