@@ -56,4 +56,9 @@ public class ClienteController {
 		clientRepository.setAtivo(true, cpf);
 		return "Cliente Ativado";
 	}
+
+	@GetMapping(path="/ativos")
+	public @ResponseBody Iterable<Cliente> getClientesAtivos() {
+		return clientRepository.listaClientesAtivos();
+	}
 }
