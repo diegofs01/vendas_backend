@@ -61,4 +61,14 @@ public class ClienteController {
 	public @ResponseBody Iterable<Cliente> getClientesAtivos() {
 		return clientRepository.listaClientesAtivos();
 	}
+	
+	@GetMapping(path="/saldo/{cpf}")
+	public @ResponseBody double consultarSaldo(@PathVariable("cpf") String cpf) {
+		return clientRepository.consultarSaldo(cpf);
+	}
+	
+	@PutMapping(path="/saldo/{cpf}")
+	public @ResponseBody void atualizarSaldo(@PathVariable("cpf") String cpf, @RequestBody double novoSaldo) { 
+		clientRepository.atualizarSaldo(novoSaldo, cpf);
+	}
 }

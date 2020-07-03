@@ -17,4 +17,12 @@ public interface ClienteRepository extends CrudRepository<Cliente, String> {
 	@Query(value = "SELECT * FROM cliente WHERE ativo = true", nativeQuery = true)
 	Iterable<Cliente> listaClientesAtivos();
 	
+	@Query(value = "SELECT saldo FROM cliente WHERE cpf = ?1", nativeQuery = true)
+	double consultarSaldo(String cpf);
+	
+	@Modifying(clearAutomatically = true)
+	@Transactional
+	@Query("UPDATE Cliente c SET c.saldo = ?1 WHERE c.cpf = ?2")
+	void atualizarSaldo(double novoSaldo, String cpf);
+	
 }
