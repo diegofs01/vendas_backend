@@ -21,7 +21,7 @@ import com.diego.venda.model.Venda;
 import com.diego.venda.repository.ItemRepository;
 import com.diego.venda.repository.VendaRepository;
 
-@CrossOrigin(origins = { "http://localhost:3000" })
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping("/api/venda")
 public class VendaController {
@@ -31,10 +31,7 @@ public class VendaController {
 	private ItemRepository itemRepository;
 	
 	@PostMapping(path="/novo")
-	public @ResponseBody String addVenda(@RequestBody Venda venda) {
-		
-		System.out.println(venda.getDataVenda() + " - " + venda.getDataVenda().toLocalDateTime());
-		
+	public @ResponseBody String addVenda(@RequestBody Venda venda) {		
 		vendaRepository.save(venda);
 		
 		for(Item i: venda.getItens()) {
@@ -82,7 +79,10 @@ public class VendaController {
 	}
 	
 	@DeleteMapping(path="/excluirItem/{idItem}")
-	public @ResponseBody void excluirItem(@PathVariable("idItem") int idItem) { 
-		itemRepository.deleteItemById(idItem);
+	public @ResponseBody void excluirItem(@PathVariable("idItem") int idItem) {
+		Optional<Item> item = itemRepository.findById(idItem);
+		if(item.isPresent()) {
+			itemRepository.delete(item.get());
+		}
 	}
 }

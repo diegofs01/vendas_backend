@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.diego.venda.model.Produto;
 import com.diego.venda.repository.ProdutoRepository;
 
-@CrossOrigin(origins = { "http://localhost:3000" })
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping("/api/produto")
 public class ProdutoController {

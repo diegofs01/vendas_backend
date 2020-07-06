@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.diego.venda.model.Cliente;
 import com.diego.venda.repository.ClienteRepository;
 
-@CrossOrigin(origins = { "http://localhost:3000" })
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping("/api/cliente")
 public class ClienteController {
@@ -61,14 +61,5 @@ public class ClienteController {
 	public @ResponseBody Iterable<Cliente> getClientesAtivos() {
 		return clientRepository.listaClientesAtivos();
 	}
-	
-	@GetMapping(path="/saldo/{cpf}")
-	public @ResponseBody double consultarSaldo(@PathVariable("cpf") String cpf) {
-		return clientRepository.consultarSaldo(cpf);
-	}
-	
-	@PutMapping(path="/saldo/{cpf}")
-	public @ResponseBody void atualizarSaldo(@PathVariable("cpf") String cpf, @RequestBody double novoSaldo) { 
-		clientRepository.atualizarSaldo(novoSaldo, cpf);
-	}
+
 }
