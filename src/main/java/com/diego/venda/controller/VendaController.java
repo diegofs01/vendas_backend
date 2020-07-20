@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.diego.venda.model.Item;
 import com.diego.venda.model.Venda;
+import com.diego.venda.repository.ClienteRepository;
 import com.diego.venda.repository.ItemRepository;
 import com.diego.venda.repository.VendaRepository;
 
@@ -29,6 +30,8 @@ public class VendaController {
 	private VendaRepository vendaRepository;
 	@Autowired
 	private ItemRepository itemRepository;
+	@Autowired
+	private ClienteRepository clienteRepository;
 	
 	@PostMapping(path="/novo")
 	public @ResponseBody String addVenda(@RequestBody Venda venda) {		
@@ -38,6 +41,8 @@ public class VendaController {
 			i.setIdVenda(venda.getId());
 			itemRepository.save(i);
 		}
+		
+		clienteRepository.save(venda.getCliente());
 		
 		return "Venda salvo com Sucesso";
 	}
@@ -53,6 +58,7 @@ public class VendaController {
 			}
 			v.setItens(itens);
 		}	
+		
 		return vendas;
 	}
 	

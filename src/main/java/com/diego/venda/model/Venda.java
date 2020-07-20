@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 
 @Entity
@@ -16,7 +17,8 @@ public class Venda {
 	
 	private Timestamp dataVenda;
 	
-	private String cpfCliente;
+	@ManyToOne
+	private Cliente cliente;
 	
 	@Transient
 	private Set<Item> itens;
@@ -37,11 +39,11 @@ public class Venda {
 		this.dataVenda = dataVenda;
 	}
 	
-	public String getCpfCliente() {
-		return cpfCliente;
+	public Cliente getCliente() {
+		return cliente;
 	}
-	public void setCpfCliente(String cpfCliente) {
-		this.cpfCliente = cpfCliente;
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
 	}
 	
 	public Set<Item> getItens() {
