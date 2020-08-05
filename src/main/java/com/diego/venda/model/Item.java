@@ -9,7 +9,7 @@ import javax.persistence.ManyToOne;
 @Entity
 public class Item {
 
-	@Id @GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int idItem;
 	private int idVenda;
 	

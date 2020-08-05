@@ -12,7 +12,7 @@ import javax.persistence.Transient;
 
 @Entity
 public class Venda {
-	@Id @GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
 	private Timestamp dataVenda;
