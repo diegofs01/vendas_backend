@@ -1,0 +1,6 @@
+spring.jpa.hibernate.ddl-auto=
+spring.jpa.properties.hibernate.dialect=
+spring.datasource.url=jdbc:
+spring.datasource.username=
+spring.datasource.password=
+jwt.secret=
