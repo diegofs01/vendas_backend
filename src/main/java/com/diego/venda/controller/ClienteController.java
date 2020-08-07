@@ -3,6 +3,7 @@ package com.diego.venda.controller;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,9 +23,18 @@ public class ClienteController {
 	private ClienteRepository clientRepository;
 	
 	@PostMapping(path="/novo")
-	public @ResponseBody String addCliente(@RequestBody Cliente cliente) {
-		clientRepository.save(cliente);
-		return "Cliente Salvo";
+	public @ResponseBody HttpStatus addCliente(@RequestBody Cliente cliente) {
+		if(cliente == null) {
+			return HttpStatus.BAD_REQUEST;//400
+		}
+		if(clientRepository.existsById(cliente.getCpf())) {
+			return HttpStatus.CONFLICT;//409
+		}
+		if(cliente.validar()) {
+			clientRepository.save(cliente);
+			return HttpStatus.CREATED;//201
+		}
+		return HttpStatus.BAD_REQUEST;
 	}
 	
 	@GetMapping(path="/")
@@ -38,26 +48,38 @@ public class ClienteController {
 	}
 	
 	@PutMapping(path="/editar") 
-	public @ResponseBody String updateCliente(@RequestBody Cliente cliente) { 
-		clientRepository.save(cliente);
-		return "Cliente atualizado";
+	public @ResponseBody HttpStatus updateCliente(@RequestBody Cliente cliente) {
+		if(cliente == null) {
+			return HttpStatus.BAD_REQUEST;//400
+		}
+		if(cliente.validar()) {
+			clientRepository.save(cliente);
+			return HttpStatus.OK;//200
+		}
+		return HttpStatus.BAD_REQUEST;
 	}
 	
 	@PostMapping(path="/desativar/{cpf}")
-	public @ResponseBody String desativarCliente(@PathVariable("cpf") String cpf) {
-		clientRepository.setAtivo(false, cpf);
-		return "Cliente Desativado";
+	public @ResponseBody HttpStatus desativarCliente(@PathVariable("cpf") String cpf) {
+		if(cpf != null) {
+			clientRepository.setAtivo(false, cpf);
+			return HttpStatus.OK;
+		}
+		return HttpStatus.BAD_REQUEST;
 	}
 	
 	@PostMapping(path="/ativar/{cpf}")
-	public @ResponseBody String ativarCliente(@PathVariable("cpf") String cpf) {
-		clientRepository.setAtivo(true, cpf);
-		return "Cliente Ativado";
+	public @ResponseBody HttpStatus ativarCliente(@PathVariable("cpf") String cpf) {
+		if(cpf != null) {
+			clientRepository.setAtivo(true, cpf);
+			return HttpStatus.OK;
+		}
+		return HttpStatus.BAD_REQUEST;
 	}
 
 	@GetMapping(path="/ativos")
 	public @ResponseBody Iterable<Cliente> getClientesAtivos() {
 		return clientRepository.listaClientesAtivos();
 	}
-
+	
 }
