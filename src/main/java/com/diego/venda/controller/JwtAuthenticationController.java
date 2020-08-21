@@ -1,5 +1,7 @@
 package com.diego.venda.controller;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,7 +43,9 @@ public class JwtAuthenticationController {
 		final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
 			
 		final String token = jwtTokenUtil.generateToken(userDetails);
-		return ResponseEntity.ok(new JwtResponse(token));
+		final Date expDate = jwtTokenUtil.getExpirationDateFromToken(token);
+
+		return ResponseEntity.ok(new JwtResponse(token, expDate));
 	}
 
 	@RequestMapping(value = "/checkToken", method = RequestMethod.POST)
