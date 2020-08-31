@@ -1,0 +1,5 @@
+flyway.url=jdbc:
+flyway.schemas=
+flyway.user=
+flyway.password=
+flyway.locations=

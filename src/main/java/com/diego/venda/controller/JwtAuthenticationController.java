@@ -5,7 +5,6 @@ import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.ResponseEntity.BodyBuilder;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
@@ -22,10 +21,10 @@ import com.diego.venda.jwt.JwtTokenUtil;
 import com.diego.venda.jwt.JwtUserDetailsService;
 import com.diego.venda.model.JwtRequest;
 import com.diego.venda.model.JwtResponse;
+import com.diego.venda.model.JwtUserDetails;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/jwt")
 public class JwtAuthenticationController {
 	
 	@Autowired
@@ -37,7 +36,7 @@ public class JwtAuthenticationController {
 	@Autowired
 	private JwtUserDetailsService userDetailsService;
 	
-	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	@RequestMapping(value = "/jwt/login", method = RequestMethod.POST)
 	public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
 		
 		final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
@@ -48,7 +47,7 @@ public class JwtAuthenticationController {
 		return ResponseEntity.ok(new JwtResponse(token, expDate));
 	}
 
-	@RequestMapping(value = "/checkToken", method = RequestMethod.POST)
+	@RequestMapping(value = "/jwt/checkToken", method = RequestMethod.POST)
 	public @ResponseBody HttpStatus checkToken(@RequestBody String token) throws Exception {
 		final UserDetails user = userDetailsService.loadUserByUsername(jwtTokenUtil.getUsernameFromToken(token));
 		final boolean check = jwtTokenUtil.validateToken(token, user);
@@ -58,6 +57,18 @@ public class JwtAuthenticationController {
 		} else {
 			return HttpStatus.NOT_FOUND;
 		}
+	}
+	
+	@RequestMapping(value = "/jwt/createUser", method = RequestMethod.POST)
+	public ResponseEntity<?> createUser(@RequestBody JwtUserDetails user) throws Exception {
+		userDetailsService.saveNewUser(user);
+		return ResponseEntity.ok("Usuário Criado");
+	}
+	
+	@RequestMapping(value = "/updateUser", method = RequestMethod.PUT)
+	public ResponseEntity<?> updateUser(@RequestBody JwtUserDetails user) throws Exception {
+		userDetailsService.updateUser(user);
+		return ResponseEntity.ok("Usuário Atualizado");
 	}
 	
 	private void authenticate(String username, String password) throws Exception {
